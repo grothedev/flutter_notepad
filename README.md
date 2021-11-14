@@ -1,0 +1,1 @@
+this app is a prototype to showcase some of the functionality of my server applications and flutter libraries. 
