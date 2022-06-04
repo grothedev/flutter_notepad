@@ -12,8 +12,8 @@ import 'package:confirm_dialog/confirm_dialog.dart';
 //import 'package:ssh2/ssh2.dart';
 
 class HomeScreenState extends State<HomeScreen> {
-  //NoteStore notes = new NoteStore();
-  List<String> notes = <String>[];
+  NoteStore notes = new NoteStore();
+  //List<String> notes = <String>[];
 
   String selectedNote = "";
   //String filterSpec; //TODO sort/filter by date, topic, etc.?
@@ -43,9 +43,10 @@ class HomeScreenState extends State<HomeScreen> {
         if (!p.containsKey('notes')) {
           p.setString('notes', jsonEncode(notes));
         } else {
-          notes = List.from(jsonDecode(p.getString('notes')!));
+          //notes = List.from(jsonDecode(p.getString('notes')!));
+          notes = NoteStore.fromJSON(p.getString('notes')!);
         }
-        
+
         //notes = NoteStore.fromJSON(p.getString('notes')!);
         setState(() => loaded = true);
       }).onError((error, stackTrace) {
@@ -100,30 +101,31 @@ class HomeScreenState extends State<HomeScreen> {
                         child: Text('Delete'),
                         onTap: () {
                           print('delete');
-                          showDialog(context: context, builder: (context){
-                            return AlertDialog(
-                              title: Text('Delete?'),
-                              content: Text('content'),
-                              actions: [
-                                TextButton(
-                                  child: Text('No'),
-                                  onPressed: (){
-                                    Navigator.of(context).pop();
-                                  },
-                                ),
-                                TextButton(
-                                  child: Text('Yes'),
-                                  onPressed: (){
-                                    //deleteSelectedNotes();
-                                    Navigator.of(context).pop();
-                                  },
-                                )
-                              ]
-                            );
-                          });
+                          showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                    title: Text('Delete?'),
+                                    content: Text('content'),
+                                    actions: [
+                                      TextButton(
+                                        child: Text('No'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () {
+                                          //deleteSelectedNotes();
+                                          Navigator.of(context).pop();
+                                        },
+                                      )
+                                    ]);
+                              });
                         },
                       )
-                ])
+                    ])
           ],
         ),
         body: Container(
@@ -132,12 +134,12 @@ class HomeScreenState extends State<HomeScreen> {
               children: [
                 Text('Notes'),
                 Expanded(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: notes.length,  //.size(),
-                    itemBuilder: (context, i) {
-                      Offset? tapPos; //position of the tap
-                      return GestureDetector(
+                    child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: notes.size(), //.size(),
+                  itemBuilder: (context, i) {
+                    Offset? tapPos; //position of the tap
+                    return GestureDetector(
                         child: Card(
                           elevation: 5,
                           child: Container(
@@ -193,7 +195,7 @@ class HomeScreenState extends State<HomeScreen> {
                                       });
                                     }),
                               ]);
-                      });
+                        });
                   },
                 ))
               ],
@@ -246,7 +248,7 @@ class HomeScreenState extends State<HomeScreen> {
   void editNote(int i, String t) async {
     setState(() => loaded = false);
     //notes.edit(i, t);
-    notes[i] = t;
+    notes.notes[i].n = t;
     (await prefs()).setString('notes', jsonEncode(notes));
     setState(() => loaded = true);
   }
@@ -270,7 +272,7 @@ class HomeScreenState extends State<HomeScreen> {
         toast('Error ' + res.statusCode.toString() + ': ' + res.body);
     }
   }
-  
+
   /*
   void deleteSelectedNotes(){
     setState(() { loaded = false; });
