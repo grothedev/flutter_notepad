@@ -40,7 +40,7 @@ class NoteStore {
     notes[i].n = n;
   }
 
-  void select(int i){
+  void select(int i) {
     notes[i].sel = !notes[i].sel;
   }
 
@@ -48,17 +48,37 @@ class NoteStore {
 
   String operator [](int i) => notes[i].n;
 
-  static NoteStore fromJSON(String json) =>
-      NoteStore(notes: json == null || json == '' ? [] : jsonDecode(json));
-  String toJson() => jsonEncode(notes);
+  //extract the map from each json object, then construct a note from it and add it to result list of new notes
+  static NoteStore fromJson(String json) {
+    List jsonNotes = jsonDecode(json);
+    List<Note> notes = [];
+    jsonNotes.forEach((e){
+      notes.add(new Note(e));
+    });
+    return NoteStore(
+        notes: json == '' ? [] : notes);
+  }
+
+  String toJson() {
+    dynamic test = jsonEncode(notes);
+    return jsonEncode(notes);
+  }
 }
 
 class Note {
-  String n;
+  String n = '';
   bool sel = false;
   bool saved = false;
 
-  Note(this.n);
+  Note(dynamic data) {
+    if (data is String) {
+      n = data;
+    } else if (data is Map) {
+      this.n = data['n'];
+      this.sel = data['sel'];
+      this.saved = data['saved'];
+    }
+  }
 
   Map<String, dynamic> toJson() {
     return {'n': n, 'sel': sel, 'saved': saved};

@@ -41,10 +41,10 @@ class HomeScreenState extends State<HomeScreen> {
       SharedPreferences.getInstance().then((p) {
         sharedPrefs = p;
         if (!p.containsKey('notes')) {
-          p.setString('notes', jsonEncode(notes));
+          p.setString('notes', notes.toJson());
         } else {
           //notes = List.from(jsonDecode(p.getString('notes')!));
-          notes = NoteStore.fromJSON(p.getString('notes')!);
+          notes = NoteStore.fromJson(p.getString('notes')!);
         }
 
         //notes = NoteStore.fromJSON(p.getString('notes')!);
@@ -97,6 +97,14 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             PopupMenuButton(
                 itemBuilder: (context) => <PopupMenuEntry>[
+                      PopupMenuItem(
+                          child: Text('Save All'),
+                          onTap: () {
+                            notes.notes.forEach((n) {
+                              saveNote(n.n);
+                              toast('notes saved');
+                            });
+                          }),
                       PopupMenuItem(
                         child: Text('Delete'),
                         onTap: () {
@@ -239,7 +247,7 @@ class HomeScreenState extends State<HomeScreen> {
   void addNote(String t) async {
     setState(() => loaded = false);
     notes.add(t);
-    (await prefs()).setString('notes', jsonEncode(notes));
+    (await prefs()).setString('notes', notes.toJson());
     setState(() {
       loaded = true;
     });
@@ -249,7 +257,7 @@ class HomeScreenState extends State<HomeScreen> {
     setState(() => loaded = false);
     //notes.edit(i, t);
     notes.notes[i].n = t;
-    (await prefs()).setString('notes', jsonEncode(notes));
+    (await prefs()).setString('notes', notes.toJson());
     setState(() => loaded = true);
   }
 
