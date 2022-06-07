@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 import '../widgets/FormElements.dart';
 import '../widgets/dialogs.dart';
 import 'package:confirm_dialog/confirm_dialog.dart';
+import '../store/appstate.dart';
 
 //import 'package:ssh2/ssh2.dart';
 
@@ -21,8 +22,6 @@ class HomeScreenState extends State<HomeScreen> {
   bool loaded = false;
   bool failed = false;
   Widget? activeWidget;
-  //String API_URL = 'http://192.168.1.195/n/';
-  String API_URL = 'http://grothe.ddns.net/n';
   SharedPreferences? sharedPrefs;
 
   @override
@@ -71,7 +70,7 @@ class HomeScreenState extends State<HomeScreen> {
     } else {
       return Scaffold(
         appBar: AppBar(
-          title: Text(API_URL),
+          title: Text(SERVER_URL+'n'),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.settings),
@@ -262,7 +261,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void saveNote(String note) async {
-    var res = await http.Client().post(Uri.parse(API_URL), headers: {
+    var res = await http.Client().post(Uri.parse(SERVER_URL+'n'), headers: {
       'content-type': 'application/x-www-form-urlencoded'
     }, body: <String, String>{
       'tag': 'notes_mobile',
@@ -294,10 +293,10 @@ class HomeScreenState extends State<HomeScreen> {
       url = 'http://' + url;
     }
     setState(() {
-      API_URL = url;
+      SERVER_URL = url;
     });
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('API_URL=' + url),
+      content: Text('API_URL=' + url+'n'),
     ));
   }
 

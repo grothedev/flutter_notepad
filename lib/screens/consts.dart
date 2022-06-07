@@ -1,3 +1,4 @@
-int NUM_TABS = 2;
+int NUM_TABS = 3;
 int SCREEN_HOME = 0;
 int SCREEN_SETTINGS = 1;
+int SCREEN_CAM = 2;

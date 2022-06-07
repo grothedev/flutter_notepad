@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 //import 'package:flutter_skeleton/store/store.dart';
+import 'cam.dart';
 import 'consts.dart';
 import 'home.dart';
 import 'settings.dart';
@@ -24,9 +25,7 @@ class RootState extends State<RootScreen>
   void initState() {
     super.initState();
     tabController = TabController(length: NUM_TABS, vsync: this);
-    if (widget.tab != null) {
-      tabController.index = widget.tab;
-    }
+    tabController.index = widget.tab;
   }
 
   @override
@@ -39,13 +38,17 @@ class RootState extends State<RootScreen>
   Widget build(BuildContext context) {
     //store = Provider.of<Store>(context);
     return Scaffold(
-        body: Container(child: Text("body")), //createBody(store),
+        body: TabBarView(
+          children: <Widget>[HomeScreen(), CamScreen(), SettingsScreen()],
+          controller: tabController
+        ),
         appBar: AppBar(title: Text("title")),
         bottomNavigationBar: Material(
             child: TabBar(
               tabs: <Tab>[
                 Tab(icon: Icon(Icons.home)),
-                Tab(icon: Icon(Icons.settings))
+                Tab(icon: Icon(Icons.security)),
+                Tab(icon: Icon(Icons.settings)),
               ],
               controller: tabController,
               //labelColor: Theme.of(context).backgroundColor,

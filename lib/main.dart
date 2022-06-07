@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:notepad/screens/cam.dart';
 import 'screens/home.dart';
 
 import 'screens/root.dart';
@@ -34,11 +35,12 @@ class TheApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       //home: RootScreen(),
-      home: HomeScreen(),
+      home: RootScreen(0),//HomeScreen(),
       initialRoute: '/',
       routes: {
         //some example screen that might be used
         '/home': (context) => RootScreen(SCREEN_HOME),
+        '/cam': (context) => RootScreen(SCREEN_CAM),
         '/settings': (context) => RootScreen(SCREEN_SETTINGS),
       },
     );
