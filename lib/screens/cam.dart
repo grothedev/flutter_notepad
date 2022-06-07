@@ -7,7 +7,7 @@ class CamScreenState extends State<CamScreen> {
 
   CamScreenState() {
     imgElement = Image.network(SERVER_URL + "camcapture.png",
-        fit: BoxFit.fill, semanticLabel: "security camera image",
+        fit: BoxFit.fitHeight, semanticLabel: "security camera image",
         loadingBuilder: (context, w, e) {
       return e == null
           ? w
@@ -18,29 +18,36 @@ class CamScreenState extends State<CamScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Column(
-      children: [
-        imgElement!,
-        ElevatedButton(
-            onPressed: () {
-              http.get(Uri.parse(SERVER_URL + 'snapshot')).then((value){
-                setState(() {
-                  imgElement = Image.network(SERVER_URL + "camcapture.png",
-                      fit: BoxFit.fill, semanticLabel: "security camera image",
-                      loadingBuilder: (context, w, e) {
-                    return e == null
-                        ? w
-                        : CircularProgressIndicator(
-                            value:
-                                e.cumulativeBytesLoaded / e.expectedTotalBytes!);
-                  });
-                });
-              }); 
-            },
-            child: Text("Capture"))
-      ],
-    ));
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Security Camera'),
+      ),
+      body: Container(
+          child: Column(
+            children: [
+              imgElement!,
+              Spacer(flex: 1),
+              ElevatedButton(
+                  onPressed: () {
+                    http.get(Uri.parse(SERVER_URL + 'snapshot')).then((value){
+                      setState(() {
+                        imgElement = Image.network(SERVER_URL + "camcapture.png",
+                            fit: BoxFit.fill, semanticLabel: "security camera image",
+                            loadingBuilder: (context, w, e) {
+                          return e == null
+                              ? w
+                              : CircularProgressIndicator(
+                                  value:
+                                      e.cumulativeBytesLoaded / e.expectedTotalBytes!);
+                        });
+                      });
+                    }); 
+                  },
+                  child: Text("Capture")),
+              Spacer(flex: 5),
+            ],
+          )),
+    );
   }
 }
 

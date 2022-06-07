@@ -42,16 +42,16 @@ class RootState extends State<RootScreen>
           children: <Widget>[HomeScreen(), CamScreen(), SettingsScreen()],
           controller: tabController
         ),
-        appBar: AppBar(title: Text("title")),
+        //appBar: AppBar(title: Text("title")),
         bottomNavigationBar: Material(
             child: TabBar(
               tabs: <Tab>[
                 Tab(icon: Icon(Icons.home)),
-                Tab(icon: Icon(Icons.security)),
+                Tab(icon: Icon(Icons.camera_alt)),
                 Tab(icon: Icon(Icons.settings)),
               ],
               controller: tabController,
-              //labelColor: Theme.of(context).backgroundColor,
+              labelColor: Theme.of(context).backgroundColor,
             ),
             type: MaterialType.canvas));
   }
