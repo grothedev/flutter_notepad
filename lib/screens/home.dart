@@ -174,6 +174,17 @@ class HomeScreenState extends State<HomeScreen> {
                                     child: Text('Save'),
                                     onTap: () => saveNote(notes[i])),
                                 PopupMenuItem(
+                                    //--save as
+                                    child: Text('Save as'),
+                                    onTap: (){
+                                      showDialogDelayed(context: context, builder: (bc){
+                                        return TextFieldDialog(bc, (res){
+                                          saveNote(notes[i], tag: res);
+                                        }, 'Save As');
+                                      }, delay: 100);
+                                    }),
+                                  
+                                PopupMenuItem(
                                     child: Text('Edit'),
                                     onTap: () {
                                       print('editing note');
@@ -188,8 +199,8 @@ class HomeScreenState extends State<HomeScreen> {
                                             builder: (bc) {
                                               return EditNoteDialog(
                                                   context,
-                                                  (String text) =>
-                                                      editNote(i, text));
+                                                  (String text) => editNote(i, text),
+                                                  notes.notes[i].n);
                                             });
                                       });
                                     }),
@@ -260,11 +271,11 @@ class HomeScreenState extends State<HomeScreen> {
     setState(() => loaded = true);
   }
 
-  void saveNote(String note) async {
+  void saveNote(String note, {String tag: 'notes_mobile'}) async {
     var res = await http.Client().post(Uri.parse(SERVER_URL+'n'), headers: {
       'content-type': 'application/x-www-form-urlencoded'
     }, body: <String, String>{
-      'tag': 'notes_mobile',
+      'tag': tag,
       'text': note
     }).onError((error, stackTrace) {
       toast(error.toString());
