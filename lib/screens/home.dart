@@ -226,7 +226,8 @@ class HomeScreenState extends State<HomeScreen> {
                 context: context,
                 builder: (context) {
                   return AddNoteDialog(context, addNote);
-                });
+                },
+                useRootNavigator: true);
           },
         ),
       );
@@ -238,6 +239,7 @@ class HomeScreenState extends State<HomeScreen> {
    */
   Widget settingsDialog(BuildContext bc) {
     TextEditingController tec = TextEditingController();
+    tec.text = SERVER_URL;
     return SimpleDialog(
       children: [
         Row(

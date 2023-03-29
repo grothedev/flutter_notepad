@@ -32,7 +32,8 @@ class CamScreenState extends State<CamScreen> {
             children: [
               GestureDetector(
                 child: imgElement,
-                onTap: ()=>launchUrl(imgURI()),
+                onTap: ()=>launchUrl(imgURI(), webViewConfiguration: WebViewConfiguration(enableDomStorage: false, 
+                headers: {'Cache-Control': 'no-cache, no-store, must-revalidate'})),
               ),
               Spacer(flex: 1),
               ElevatedButton(

@@ -43,9 +43,11 @@ Widget AddNoteDialog(BuildContext bc, Function onAdd) {
             tec.clear();
             Navigator.pop(bc);
           },
-          child: Text('Add'))
+          child: Text('Add')
+      ),
     ],
-    contentPadding: EdgeInsets.all(8.0)
+    contentPadding: EdgeInsets.all(2.0),
+    alignment: Alignment.center,
   );
 }
 

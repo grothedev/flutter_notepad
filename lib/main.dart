@@ -33,6 +33,7 @@ class TheApp extends StatelessWidget {
           bodyText2: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
+      
       ),
       //home: RootScreen(),
       home: RootScreen(0),//HomeScreen(),
