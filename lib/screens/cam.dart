@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../store/appstate.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+//import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 
 class CamScreenState extends State<CamScreen> {
   Image? imgElement;
 
   CamScreenState() {
-    
+    /*
     CacheManager cm = CacheManager(Config('cachekey'));
     imgElement = Image.network(SERVER_URL + "camcapture.png",
         fit: BoxFit.fitHeight, semanticLabel: "security camera image",
@@ -18,7 +18,7 @@ class CamScreenState extends State<CamScreen> {
           ? w
           : CircularProgressIndicator(
               value: e.cumulativeBytesLoaded / e.expectedTotalBytes!);
-    });
+    });*/
   }
 
   @override

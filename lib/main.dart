@@ -22,7 +22,6 @@ class TheApp extends StatelessWidget {
       title: 'title of app',
       theme: ThemeData(
         primarySwatch: Colors.green,
-        accentColor: Colors.green,
         backgroundColor: Colors.grey,
         textTheme: TextTheme(
           headline1: TextStyle(

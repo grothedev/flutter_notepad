@@ -4,23 +4,24 @@ Widget EditNoteDialog(BuildContext bc, Function onEdit, String editingText) {
   TextEditingController tec = TextEditingController();
   tec.text = editingText;
   return 
-    SimpleDialog(children: [
-      TextField(
-        controller: tec,
-        expands: false,
-        minLines: 3,
-        maxLines: 12,
-        style: Theme.of(bc).textTheme.bodyText2,
-        keyboardType: TextInputType.multiline,
-      ),
-      ElevatedButton(
-          onPressed: () async {
-            onEdit(tec.text);
-            tec.clear();
-            Navigator.pop(bc);
-          },
-          child: Text('Edit'))
-    ],
+    SimpleDialog(
+      children: [
+        TextField(
+          controller: tec,
+          expands: false,
+          minLines: 3,
+          maxLines: 12,
+          style: Theme.of(bc).textTheme.bodyText2,
+          keyboardType: TextInputType.multiline,
+        ),
+        ElevatedButton(
+            onPressed: () async {
+              onEdit(tec.text);
+              tec.clear();
+              Navigator.pop(bc);
+            },
+            child: Text('Edit'))
+      ],
     contentPadding: EdgeInsets.all(8.0),
   );
 }
@@ -48,6 +49,7 @@ Widget AddNoteDialog(BuildContext bc, Function onAdd) {
     ],
     contentPadding: EdgeInsets.all(2.0),
     alignment: Alignment.center,
+    
   );
 }
 

@@ -70,7 +70,7 @@ class HomeScreenState extends State<HomeScreen> {
     } else {
       return Scaffold(
         appBar: AppBar(
-          title: Text(SERVER_URL+'n'),
+          title: Text(SERVER_URL + 'n'),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.settings),
@@ -79,16 +79,18 @@ class HomeScreenState extends State<HomeScreen> {
                     context: context, //builder: (bc) => settingsDialog(bc));
                     builder: (bc) {
                       TextEditingController tec = TextEditingController();
+                      tec.text = SERVER_URL;
                       return SimpleDialog(
                         children: [
                           Text('API URL: '),
                           TextField(
-                              controller: tec,
-                              style: Theme.of(bc).textTheme.bodyText2,
-                              onEditingComplete: () {
-                                setAPIURL(tec.text);
-                                Navigator.pop(context);
-                              }) //keyboardType: TextInputType.name,)
+                            controller: tec,
+                            style: Theme.of(bc).textTheme.bodyText2,
+                            onEditingComplete: () {
+                              setAPIURL(tec.text);
+                              Navigator.pop(context);
+                            }, //keyboardType: TextInputType.name,)
+                          )
                         ],
                       );
                     });
@@ -176,14 +178,16 @@ class HomeScreenState extends State<HomeScreen> {
                                 PopupMenuItem(
                                     //--save as
                                     child: Text('Save as'),
-                                    onTap: (){
-                                      showDialogDelayed(context: context, builder: (bc){
-                                        return TextFieldDialog(bc, (res){
-                                          saveNote(notes[i], tag: res);
-                                        }, 'Save As');
-                                      }, delay: 100);
+                                    onTap: () {
+                                      showDialogDelayed(
+                                          context: context,
+                                          builder: (bc) {
+                                            return TextFieldDialog(bc, (res) {
+                                              saveNote(notes[i], tag: res);
+                                            }, 'Save As');
+                                          },
+                                          delay: 100);
                                     }),
-                                  
                                 PopupMenuItem(
                                     child: Text('Edit'),
                                     onTap: () {
@@ -196,10 +200,12 @@ class HomeScreenState extends State<HomeScreen> {
                                           () {
                                         showDialog(
                                             context: context,
+                                            barrierDismissible: false,
                                             builder: (bc) {
                                               return EditNoteDialog(
                                                   context,
-                                                  (String text) => editNote(i, text),
+                                                  (String text) =>
+                                                      editNote(i, text),
                                                   notes.notes[i].n);
                                             });
                                       });
@@ -224,6 +230,7 @@ class HomeScreenState extends State<HomeScreen> {
           onPressed: () {
             showDialog(
                 context: context,
+                barrierDismissible: false,
                 builder: (context) {
                   return AddNoteDialog(context, addNote);
                 },
@@ -273,8 +280,8 @@ class HomeScreenState extends State<HomeScreen> {
     setState(() => loaded = true);
   }
 
-  void saveNote(String note, {String tag: 'notes_mobile'}) async {
-    var res = await http.Client().post(Uri.parse(SERVER_URL+'n'), headers: {
+  void saveNote(String note, {String tag = 'notes_mobile'}) async {
+    var res = await http.Client().post(Uri.parse(SERVER_URL + 'n'), headers: {
       'content-type': 'application/x-www-form-urlencoded'
     }, body: <String, String>{
       'tag': tag,
@@ -306,10 +313,10 @@ class HomeScreenState extends State<HomeScreen> {
       url = 'http://' + url;
     }
     setState(() {
-      SERVER_URL = url;
+      SERVER_URL = url+'/n';
     });
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('API_URL=' + url+'n'),
+      content: Text('API_URL=' + url + '/n'),
     ));
   }
 
